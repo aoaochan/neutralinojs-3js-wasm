@@ -30,7 +30,7 @@
     "clientLibrary": "/www/neutralino.js",
     "frontendLibrary": {
       "projectPath": ".",
-      "initCommand": "cargo new backend --lib --vcs none"
+      "initCommand": "cargo new backend --lib --vcs none && node scripts/vendor.mjs"
     }
   }
 }
