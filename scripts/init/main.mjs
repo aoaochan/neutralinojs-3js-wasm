@@ -17,7 +17,7 @@ function run(cmd, args) {
 }
 
 async function getFileString(path) {
-  const fullPath = path.resolve(__dirname, filePath);
+  const fullPath = path.resolve(__dirname, path);
   return await readFile(fullPath, 'utf8');
 }
 
