@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 process.chdir(ROOT);
 
-const CLEANUP_FILE = 'scripts/init.mjs';
+const CLEANUP_FOLDER = 'scripts/init';
 const LIB_RS = `use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -102,7 +102,7 @@ for (const [name, fn] of steps) {
 
 if (failed === 0) {
   try {
-    rmSync(CLEANUP_FILE, { recursive: true, force: true });
+    rmSync(CLEANUP_FOLDER, { recursive: true, force: true });
   } catch (err) {
     console.warn(`[init] Failed to cleanup: ${err.message}`);
   }
