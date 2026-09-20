@@ -30,7 +30,7 @@
     "clientLibrary": "/www/neutralino.js",
     "frontendLibrary": {
       "projectPath": ".",
-      "initCommand": "node scripts/init.mjs"
+      "initCommand": "node scripts/init/main.mjs"
     }
   }
 }
