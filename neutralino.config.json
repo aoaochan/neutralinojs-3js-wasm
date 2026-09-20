@@ -24,9 +24,13 @@
     }
   },
   "cli": {
-    "binaryName": "neutralinojs-empty",
+    "binaryName": "neutralinojs-3js-wasm",
     "resourcesPath": "/www/",
     "extensionsPath": "/extensions/",
-    "clientLibrary": "/www/neutralino.js"
+    "clientLibrary": "/www/neutralino.js",
+    "frontendLibrary": {
+      "projectPath": "."
+      "initCommand": "cargo new backend --lib --vcs none"
+    }
   }
 }
