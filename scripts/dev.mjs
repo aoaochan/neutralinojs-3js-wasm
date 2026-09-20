@@ -7,22 +7,22 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 process.chdir(ROOT);
 
 if (!existsSync('backend')) {
-  console.error('[dev] backend/ 폴더가 없습니다. Rust backend 를 먼저 생성하세요.');
+  console.error('[dev] `The backend/` folder is missing. Please create the Rust backend first.');
   process.exit(1);
 }
 
 const WASM_ARGS = ['build', 'backend', '--dev', '--target', 'web', '--out-dir', '../www/pkg'];
 
 function buildWasm() {
-  console.log('[dev] wasm 빌드 중...');
+  console.log('[dev] Building WASM...');
   const r = spawnSync('wasm-pack', WASM_ARGS, { stdio: 'inherit' });
 
   if (r.error?.code === 'ENOENT') {
-    console.warn('[dev] wasm-pack 을 찾을 수 없음. `cargo install wasm-pack` 후 다시 시도하세요.');
+    console.warn('[dev] wasm-pack not found. Please run `cargo install wasm-pack` and try again.');
   } else if (r.status === 0) {
-    console.log('[dev] wasm 빌드 완료');
+    console.log('[dev] Wasm build complete.');
   } else {
-    console.warn('[dev] wasm 빌드 실패 - 소스를 고치면 자동으로 다시 시도합니다.');
+    console.warn('[dev] Wasm build failed – it will automatically retry if you modify the source.');
   }
 }
 
