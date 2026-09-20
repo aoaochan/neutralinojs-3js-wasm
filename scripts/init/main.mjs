@@ -16,9 +16,9 @@ function run(cmd, args) {
   execFileSync(cmd, args, { stdio: 'inherit' });
 }
 
-async function getFileString(_path) {
+function getFileString(_path) {
   const fullPath = path.resolve(__dirname, _path);
-  return await readFile(fullPath, 'utf8');
+  return readFileSync(fullPath, 'utf8');
 }
 
 async function setupBackend() {
