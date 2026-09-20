@@ -1,5 +1,5 @@
-# neutralinojs-empty
-> Neutralinojs Template with Three.js and WASM(Rust)!
+# neutralinojs-3js-wasm
+> Neutralinojs with Three.js and WASM(Rust)!
 
 ## Quick Start
 ```
