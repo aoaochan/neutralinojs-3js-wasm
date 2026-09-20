@@ -1,6 +1,6 @@
-# neutralinojs-zero
-An empty Neutralinojs app, extend as you wish
+# neutralinojs-empty
+Neutralinojs Template
 
 ```
-neu create myapp --template neutralinojs/neutralinojs-zero
+neu create myapp --template aoaochan/neutralinojs-empty
 ```
