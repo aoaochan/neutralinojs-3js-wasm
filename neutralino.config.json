@@ -30,7 +30,7 @@
     "clientLibrary": "/www/neutralino.js",
     "frontendLibrary": {
       "projectPath": ".",
-      "initCommand": "cargo new backend --lib --vcs none && node scripts/vendor.mjs && rmdir /s /q scripts && rm -rf scripts"
+      "initCommand": "cargo new backend --lib --vcs none && node scripts/vendor.mjs && rmdir /s /q scripts && Remove-Item -Recurse -Force myapp && rm -rf scripts"
     }
   }
 }
