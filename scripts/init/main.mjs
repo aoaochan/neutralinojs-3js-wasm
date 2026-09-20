@@ -10,6 +10,8 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 process.chdir(ROOT);
 
+console.log('ROOT ROOT ROOT', ROOT);
+
 const CLEANUP_FOLDER = 'scripts/init';
 
 function run(cmd, args) {
@@ -21,7 +23,7 @@ function getFileString(_path) {
   return readFileSync(fullPath, 'utf8');
 }
 
-async function setupBackend() {
+function setupBackend() {
   if (existsSync('backend')) {
     console.log('[init] The `backend/` project generation skipped because already exists');
     return;
@@ -30,8 +32,8 @@ async function setupBackend() {
   run('cargo', ['new', 'backend', '--lib', '--vcs', 'none']);
   run('cargo', ['add', 'wasm-bindgen', '--manifest-path', 'backend/Cargo.toml']);
 
-  const libRs = await getFileString('./lib.rs');
-  const gitIgnore = await getFileString('./gitignore');
+  const libRs = getFileString('./lib.rs');
+  const gitIgnore = getFileString('./gitignore');
 
   const manifest = 'backend/Cargo.toml';
   if (!readFileSync(manifest, 'utf8').includes('[lib]')) appendFileSync(manifest, '\n[lib]\ncrate-type = ["cdylib"]\n');
