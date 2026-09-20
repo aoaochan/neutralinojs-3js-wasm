@@ -17,7 +17,10 @@
       "height": 600,
       "minWidth": 800,
       "minHeight": 600,
-      "icon": "/www/icon.png"
+      "icon": "/www/icon.png",
+      "center": true,
+      "resizable": true,
+      "enableInspector": true
     }
   },
   "cli": {
