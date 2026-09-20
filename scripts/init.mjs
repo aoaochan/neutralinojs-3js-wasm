@@ -7,13 +7,21 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 process.chdir(ROOT);
 
-const CLEANUP = ['scripts/init.mjs', 'myapp'];
+const CLEANUP_FILE = 'scripts/init.mjs';
 const LIB_RS = `use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-pub fn add(a: i32, b: i32) -> i32 {
-    a + b
+extern {
+    pub fn alert(s: &str);
 }
+
+#[wasm_bindgen]
+pub fn greet(name: &str) {
+    alert(&format!("Hello, {}!", name));
+}
+`;
+const GITIGNORE_RS = `target
+Cargo.lock
 `;
 
 function run(cmd, args) {
@@ -22,7 +30,7 @@ function run(cmd, args) {
 
 function setupBackend() {
   if (existsSync('backend')) {
-    console.log('[init] backend/ 가 이미 있어서 건너뜀');
+    console.log('[init] The `backend/` project generation skipped because already exists');
     return;
   }
 
@@ -30,11 +38,10 @@ function setupBackend() {
   run('cargo', ['add', 'wasm-bindgen', '--manifest-path', 'backend/Cargo.toml']);
 
   const manifest = 'backend/Cargo.toml';
-  if (!readFileSync(manifest, 'utf8').includes('[lib]')) {
-    appendFileSync(manifest, '\n[lib]\ncrate-type = ["cdylib"]\n');
-  }
+  if (!readFileSync(manifest, 'utf8').includes('[lib]')) appendFileSync(manifest, '\n[lib]\ncrate-type = ["cdylib"]\n');
   writeFileSync('backend/src/lib.rs', LIB_RS);
-  console.log('[init] backend/ 생성 완료');
+  writeFileSync('backend/.gitignore', GITIGNORE_RS);
+  console.log('[init] The `backend/` project successfully generated');
 }
 
 async function vendorThree() {
@@ -58,14 +65,12 @@ async function vendorThree() {
     await mkdir(path.dirname(dist + file), { recursive: true });
     await writeFile(dist + file, src);
 
-    for (const m of src.matchAll(/(?:from|import)\s*['"](\.{1,2}\/[^'"]+)['"]/g)) {
-      await grab(path.posix.normalize(path.posix.join(path.posix.dirname(file), m[1])));
-    }
+    for (const m of src.matchAll(/(?:from|import)\s*['"](\.{1,2}\/[^'"]+)['"]/g)) await grab(path.posix.normalize(path.posix.join(path.posix.dirname(file), m[1])));
   }
 
   for (const f of entries) await grab(f);
   await writeFile(dist + 'VERSION', `${version}\n`);
-  console.log(`[init] three@${version} -> ${dist}`);
+  console.log(`[init] \`three@${version}\` -> \`${dist}\``);
 }
 
 function stripFrontendLibrary() {
@@ -74,7 +79,7 @@ function stripFrontendLibrary() {
   if (config.cli?.frontendLibrary) {
     delete config.cli.frontendLibrary;
     writeFileSync(file, `${JSON.stringify(config, null, 2)}\n`);
-    console.log('[init] neutralino.config.json 에서 cli.frontendLibrary 제거');
+    console.log('[init] Removed `cli.frontendLibrary` from `neutralino.config.json`');
   }
 }
 
@@ -82,7 +87,7 @@ function stripFrontendLibrary() {
 const steps = [
   ['Rust backend', setupBackend],
   ['three.js vendor', vendorThree],
-  ['config 정리', stripFrontendLibrary],
+  ['config cleanup', stripFrontendLibrary],
 ];
 
 let failed = 0;
@@ -91,16 +96,16 @@ for (const [name, fn] of steps) {
     await fn();
   } catch (err) {
     failed++;
-    console.warn(`[init] ${name} 실패: ${err.message}`);
+    console.warn(`[init] Failed to \`${name}\`: ${err.message}`);
   }
 }
 
 if (failed === 0) {
   try {
-    for (const p of CLEANUP) rmSync(p, { recursive: true, force: true });
+    rmSync(CLEANUP_FILE, { recursive: true, force: true });
   } catch (err) {
-    console.warn(`[init] 정리 실패: ${err.message}`);
+    console.warn(`[init] Failed to cleanup: ${err.message}`);
   }
 } else {
-  console.warn('[init] 실패한 단계가 있어 scripts/ 를 남겨둠. 원인 해결 후 `node scripts/init.mjs` 로 다시 실행하세요.');
+  console.warn('[init] The `scripts/` directory has been retained because a step failed. After resolving the issue, please run `node scripts/init.mjs` again.');
 }
