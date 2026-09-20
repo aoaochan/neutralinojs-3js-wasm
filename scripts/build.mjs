@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 process.chdir(ROOT);
 
-console.log('[build] wasm 빌드 중...');
+console.log('[build] Building WASM...');
 const wasm = spawnSync(
   'wasm-pack',
   ['build', 'backend', '--release', '--target', 'web', '--out-dir', '../www/pkg'],
@@ -13,11 +13,11 @@ const wasm = spawnSync(
 );
 
 if (wasm.error?.code === 'ENOENT') {
-  console.error('[build] wasm-pack 을 찾을 수 없음. `cargo install wasm-pack` 후 다시 시도하세요.');
+  console.error('[build] wasm-pack not found. Please run `cargo install wasm-pack` and try again.');
   process.exit(1);
 }
 if (wasm.status !== 0) {
-  console.error('[build] wasm 빌드 실패');
+  console.error('[build] Wasm build failed');
   process.exit(wasm.status ?? 1);
 }
 
