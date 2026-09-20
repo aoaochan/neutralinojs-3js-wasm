@@ -3,7 +3,7 @@
 
 ## Quick Start
 ```
-neu create myapp --template aoaochan/neutralinojs-empty
+neu create myapp --template aoaochan/neutralinojs-3js-wasm
 ```
 
 ## Requirements
