@@ -32,8 +32,8 @@ function setupBackend() {
   run('cargo', ['new', 'backend', '--lib', '--vcs', 'none']);
   run('cargo', ['add', 'wasm-bindgen', '--manifest-path', 'backend/Cargo.toml']);
 
-  const libRs = getFileString('./lib.rs');
-  const gitIgnore = getFileString('./gitignore');
+  const libRs = getFileString('./template/src/lib.rs');
+  const gitIgnore = getFileString('./template/gitignore');
 
   const manifest = 'backend/Cargo.toml';
   if (!readFileSync(manifest, 'utf8').includes('[lib]')) appendFileSync(manifest, '\n[lib]\ncrate-type = ["cdylib"]\n');
