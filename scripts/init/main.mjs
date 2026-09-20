@@ -14,11 +14,8 @@ function run(cmd, args) {
 }
 
 async function getFileString(path) {
-  const res = await fetch(path);
-  if (!res.ok) throw new Error(`[init] Failed to fetch: ${path}`);
-
-  const str = await res.text();
-  return str;
+  const fullPath = path.resolve(__dirname, filePath);
+  return await readFile(fullPath, 'utf8');
 }
 
 async function setupBackend() {
