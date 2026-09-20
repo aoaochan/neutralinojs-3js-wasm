@@ -8,3 +8,6 @@ neu create myapp --template aoaochan/neutralinojs-3js-wasm
 
 ## Requirements
 - Rust
+
+## Recommend VSCode Extensions
+- [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
