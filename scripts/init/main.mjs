@@ -8,27 +8,20 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 process.chdir(ROOT);
 
 const CLEANUP_FOLDER = 'scripts/init';
-const LIB_RS = `use wasm_bindgen::prelude::*;
-
-#[wasm_bindgen]
-extern {
-    pub fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn greet(name: &str) {
-    alert(&format!("Hello, {}!", name));
-}
-`;
-const GITIGNORE_RS = `target
-Cargo.lock
-`;
 
 function run(cmd, args) {
   execFileSync(cmd, args, { stdio: 'inherit' });
 }
 
-function setupBackend() {
+async function getFileString(path) {
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`[init] Failed to fetch: ${path}`);
+
+  const str = await res.text();
+  return str;
+}
+
+async function setupBackend() {
   if (existsSync('backend')) {
     console.log('[init] The `backend/` project generation skipped because already exists');
     return;
@@ -37,10 +30,13 @@ function setupBackend() {
   run('cargo', ['new', 'backend', '--lib', '--vcs', 'none']);
   run('cargo', ['add', 'wasm-bindgen', '--manifest-path', 'backend/Cargo.toml']);
 
+  const libRs = await getFileString('./lib.rs');
+  const gitIgnore = await getFileString('./gitignore');
+
   const manifest = 'backend/Cargo.toml';
   if (!readFileSync(manifest, 'utf8').includes('[lib]')) appendFileSync(manifest, '\n[lib]\ncrate-type = ["cdylib"]\n');
-  writeFileSync('backend/src/lib.rs', LIB_RS);
-  writeFileSync('backend/.gitignore', GITIGNORE_RS);
+  writeFileSync('backend/src/lib.rs', libRs);
+  writeFileSync('backend/.gitignore', gitIgnore);
   console.log('[init] The `backend/` project successfully generated');
 }
 
