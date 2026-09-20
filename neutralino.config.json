@@ -1,5 +1,6 @@
 {
-  "applicationId": "js.neutralino.zero",
+  "applicationId": "com.neutralino.sample",
+  "dataLocation": "system",
   "version": "1.0.0",
   "defaultMode": "window",
   "documentRoot": "/www/",
@@ -13,14 +14,14 @@
     "window": {
       "title": "Hello Neutralinojs",
       "width": 800,
-      "height": 500,
-      "minWidth": 400,
-      "minHeight": 200,
+      "height": 600,
+      "minWidth": 800,
+      "minHeight": 600,
       "icon": "/www/icon.png"
     }
   },
   "cli": {
-    "binaryName": "neutralinojs-zero",
+    "binaryName": "neutralinojs-empty",
     "resourcesPath": "/www/",
     "extensionsPath": "/extensions/",
     "clientLibrary": "/www/neutralino.js"
