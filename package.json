@@ -1,7 +1,6 @@
 {
   "name": "neutralinojs-3js-wasm",
   "version": "0.0.1",
-  "author": "",
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "build": "node scripts/build.mjs"
