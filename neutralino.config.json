@@ -30,7 +30,8 @@
     "clientLibrary": "/www/neutralino.js",
     "frontendLibrary": {
       "projectPath": ".",
-      "initCommand": "node scripts/init.mjs"
+      "initCommand": "node scripts/init.mjs",
+      "buildCommand": "wasm-pack build backend --release --target web --out-dir ../www/pkg"
     }
   }
 }
