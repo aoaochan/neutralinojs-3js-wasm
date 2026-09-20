@@ -5,7 +5,7 @@ import path from 'node:path';
   const res = await fetch('https://registry.npmjs.org/three/latest');
   if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
 
-  const data = await response.json();
+  const data = await res.json();
   const latestVersion = data.version;
 
   const base = `https://cdn.jsdelivr.net/npm/three@${latestVersion}/`
