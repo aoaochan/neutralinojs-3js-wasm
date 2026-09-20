@@ -29,7 +29,7 @@
     "extensionsPath": "/extensions/",
     "clientLibrary": "/www/neutralino.js",
     "frontendLibrary": {
-      "projectPath": "."
+      "projectPath": ".",
       "initCommand": "cargo new backend --lib --vcs none"
     }
   }
