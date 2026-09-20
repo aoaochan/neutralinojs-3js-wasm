@@ -13,7 +13,6 @@ import path from 'node:path';
   const entires = [
     'LICENSE',
     'build/three.module.js',
-    'examples/jsm/controls/OrbitControls.js',
   ];
   const seen = new Set();
 
