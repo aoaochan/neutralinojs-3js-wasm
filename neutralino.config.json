@@ -30,7 +30,7 @@
     "clientLibrary": "/www/neutralino.js",
     "frontendLibrary": {
       "projectPath": ".",
-      "initCommand": "cargo new backend --lib --vcs none && node scripts/vendor.mjs && node -e \"fs.rmSync('scripts', { recursive: true, force: true }); fs.rmSync('myapp', { recursive: true, force: true });\""
+      "initCommand": "cargo new backend --lib --vcs none && node scripts/setup-backend.mjs && node scripts/vendor.mjs && node -e \"fs.rmSync('scripts', { recursive: true, force: true }); fs.rmSync('myapp', { recursive: true, force: true });\""
     }
   }
 }
