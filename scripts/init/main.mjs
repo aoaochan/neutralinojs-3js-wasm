@@ -11,6 +11,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 process.chdir(ROOT);
 
 const CLEANUP_LIST = ['scripts/init', '.vscode'];
+const pathLibRS = './template/src/lib.rs';
+const pathGitIgnoreRS = './template/.gitignore';
 
 function consoleOverriding() {
   const originalLog = console.log;
@@ -51,8 +53,8 @@ function setupBackend() {
   run('cargo', ['new', 'backend', '--lib', '--vcs', 'none']);
   run('cargo', ['add', 'wasm-bindgen', '--manifest-path', 'backend/Cargo.toml']);
 
-  const libRs = getFileString('./template/lib.rs');
-  const gitIgnore = getFileString('./template/.gitignore');
+  const libRs = getFileString(pathLibRS);
+  const gitIgnore = getFileString(pathGitIgnoreRS);
 
   const manifest = 'backend/Cargo.toml';
   if (!readFileSync(manifest, 'utf8').includes('[lib]')) appendFileSync(manifest, '\n[lib]\ncrate-type = ["cdylib"]\n');
