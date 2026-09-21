@@ -13,6 +13,27 @@ if (!existsSync('backend')) {
 
 const WASM_ARGS = ['build', 'backend', '--dev', '--target', 'web', '--out-dir', '../www/pkg'];
 
+function consoleOverriding() {
+  const originalLog = console.log;
+  const originalError = console.error;
+  const originalWarn = console.warn;
+
+  const RESET = "\x1b[0m";
+  const GREEN = "\x1b[32m";
+  const RED = "\x1b[31m";
+  const YELLOW = "\x1b[33m";
+
+  console.log = (...args) => {
+      originalLog(GREEN + '', ...args, RESET);
+  };
+  console.error = (...args) => {
+      originalError(RED + '', ...args, RESET);
+  };
+  console.warn = (...args) => {
+      originalWarn(YELLOW + '', ...args, RESET);
+  };
+}
+
 function buildWasm() {
   console.log('[dev] Building WASM...');
   const r = spawnSync('wasm-pack', WASM_ARGS, { stdio: 'inherit' });
@@ -26,6 +47,7 @@ function buildWasm() {
   }
 }
 
+consoleOverriding();
 buildWasm();
 
 let timer;

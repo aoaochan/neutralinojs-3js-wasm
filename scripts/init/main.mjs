@@ -10,7 +10,28 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 process.chdir(ROOT);
 
-const CLEANUP_FOLDER = 'scripts/init';
+const CLEANUP_LIST = ['scripts/init', '.vscode'];
+
+function consoleOverriding() {
+  const originalLog = console.log;
+  const originalError = console.error;
+  const originalWarn = console.warn;
+
+  const RESET = "\x1b[0m";
+  const GREEN = "\x1b[32m";
+  const RED = "\x1b[31m";
+  const YELLOW = "\x1b[33m";
+
+  console.log = (...args) => {
+      originalLog(GREEN + '', ...args, RESET);
+  };
+  console.error = (...args) => {
+      originalError(RED + '', ...args, RESET);
+  };
+  console.warn = (...args) => {
+      originalWarn(YELLOW + '', ...args, RESET);
+  };
+}
 
 function run(cmd, args) {
   execFileSync(cmd, args, { stdio: 'inherit' });
@@ -80,6 +101,8 @@ function stripFrontendLibrary() {
 }
 
 // main
+consoleOverriding();
+
 const steps = [
   ['Rust backend', setupBackend],
   ['three.js vendor', vendorThree],
@@ -98,7 +121,7 @@ for (const [name, fn] of steps) {
 
 if (failed === 0) {
   try {
-    rmSync(CLEANUP_FOLDER, { recursive: true, force: true });
+    for (const f of CLEANUP_LIST) rmSync(f, { recursive: true, force: true });
   } catch (err) {
     console.warn(`[init] Failed to cleanup: ${err.message}`);
   }
