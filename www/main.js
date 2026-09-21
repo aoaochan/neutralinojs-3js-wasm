@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import init, { greet } from './pkg/backend.js';
 
+Neutralino.init();
+Neutralino.events.on("windowClose", () => Neutralino.app.exit());
+
 await init();
 greet('neutralinojs');
 
@@ -26,7 +29,9 @@ function animate(time) {
   renderer.render(scene, camera);
 }
 
-window.addEventListener('resize', () => renderer.setSize(window.innerWidth, window.innerHeight));
-
-Neutralino.init();
-Neutralino.events.on("windowClose", () => Neutralino.app.exit());
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  
+  renderer.setSize(window.innerWidth, window.innerHeight)
+});

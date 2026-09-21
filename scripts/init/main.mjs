@@ -10,8 +10,6 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 process.chdir(ROOT);
 
-console.log('ROOT ROOT ROOT', ROOT);
-
 const CLEANUP_FOLDER = 'scripts/init';
 
 function run(cmd, args) {
@@ -32,7 +30,7 @@ function setupBackend() {
   run('cargo', ['new', 'backend', '--lib', '--vcs', 'none']);
   run('cargo', ['add', 'wasm-bindgen', '--manifest-path', 'backend/Cargo.toml']);
 
-  const libRs = getFileString('./template/src/lib.rs');
+  const libRs = getFileString('./template/lib.rs');
   const gitIgnore = getFileString('./template/.gitignore');
 
   const manifest = 'backend/Cargo.toml';
@@ -105,5 +103,5 @@ if (failed === 0) {
     console.warn(`[init] Failed to cleanup: ${err.message}`);
   }
 } else {
-  console.warn('[init] The `scripts/` directory has been retained because a step failed. After resolving the issue, please run `node scripts/init.mjs` again.');
+  console.warn('[init] The `scripts/` directory has been retained because a step failed. After resolving the issue, please run `node scripts/init/main.mjs` again.');
 }
