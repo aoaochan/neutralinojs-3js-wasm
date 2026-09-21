@@ -1,5 +1,6 @@
 # neutralinojs-3js-wasm
-> Neutralinojs with Three.js and WASM(Rust)!
+Neutralinojs with Three.js and WASM(Rust)! <br>
+**Version: 0.0.1-earlyaccess**
 
 ## Quick Start
 ```
