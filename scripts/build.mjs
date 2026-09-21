@@ -55,13 +55,13 @@ function buildNeutralinojs() {
   if (config.modes?.window?.enableInspector) {
     delete config.modes.enableInspector;
     writeFileSync(filenameNeutralinojsConfig, `${JSON.stringify(config, null, 2)}\n`);
-    console.log('[build] Removed `modes.enableInspector` from `neutralino.config.json` via neu build');
+    console.log('[build] Removed `modes.window.enableInspector` from `neutralino.config.json` via neu build');
   }
 
   process.on('SIGINT', () => {});
 
   try {
-    const neu = spawnSync(['neu', 'build', ...process.argv.slice(2)].join(' '), { stdio: 'inherit', shell: true });
+    const neu = spawnSync(['neu', 'build', '--embed-resources', ...process.argv.slice(2)].join(' '), { stdio: 'inherit', shell: true });
     return neu.status;
   } finally {
     writeFileSync(filenameNeutralinojsConfig, original);
